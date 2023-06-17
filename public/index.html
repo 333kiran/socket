@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>socketApp</title>
+</head>
+<body>
+    <h1>socket demo</h1>
+    <input type="text" id="name" placeholder="enter your name "/>
+    <input type="text" id="email" placeholder="enter your emal "/>
+    <input type="number" id="status" placeholder="1 "/>
+    <button id="btn" >submit</button>
+
+
+    <div id="res"></div>
+    <div id="res2"></div>
+    <div id="res3"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const name = document.getElementById('name');
+        const email = document.getElementById('email');
+        const status = document.getElementById('status');
+        const btn = document.getElementById('btn');
+        const resName = document.getElementById('res');
+        const resEmail = document.getElementById('res2');
+        const resStatus = document.getElementById('res3');
+        
+     socket.on("data",(emailValue,nameValue,newStatus)=>{
+        const h4 = document.createElement('h4');
+        const p = document.createElement('p');
+        const h3 = document.createElement('h3');
+        h4.innerText = nameValue;
+        p.innerText = emailValue;
+        h3.innerText = newStatus;
+        resName.appendChild(h4);
+        resEmail.appendChild(p);
+        resStatus.appendChild(h3);
+     })
+
+        btn.addEventListener('click', ()=>{
+         const nameValue = name.value;
+         const emailValue= email.value;
+         const statusValue = status.value;
+         console.log(nameValue,emailValue,statusValue);
+         socket.emit('user-data',nameValue,emailValue,statusValue);
+        })
+    </script>
+</body>
+</html>
